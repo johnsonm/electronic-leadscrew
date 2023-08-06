@@ -65,20 +65,21 @@
 
 // Steps and microsteps
 #define STEPPER_MICROSTEPS 1
-// BSW8
-//  252 steps/rev (choose for integer result, program into servo)
+// ASW8
 //  6:1 servo:input
 //  275:144 input:output
-//  252*6*275/144 = 1155
-#define STEPPER_RESOLUTION 1155
+//  python -c 'print(str([z for z in [(i, i*6*275/144) for i in range(100, 500)] if z[1]%1 < .01 and z[1] < 2001]))'
+//  168 steps/rev (choose largest for integer result <= 2000, program into servo)
+//  168*6*275/144 = 1925
+#define STEPPER_RESOLUTION 1925
 
 // Separate step and microstep settings for feed rates.  Redefine these if your
 // lathe has a separate feed drive train with a different ratio.
 #define STEPPER_MICROSTEPS_FEED STEPPER_MICROSTEPS
 // Choose Z feed rate, X is approximately 1/4 of Z
 // This is relative to the leadscrew TPI, choose nearest integer, not exact
-//  STEPPER_RESOLUTION/factor 1155/0.413978 = 2790
-#define STEPPER_RESOLUTION_FEED 2790
+//  STEPPER_RESOLUTION/factor 1925/0.4152 ~= 4636
+#define STEPPER_RESOLUTION_FEED 4636
 
 // Step, direction and enable pins are normally active-high
 // #define INVERT_STEP_PIN true
@@ -138,7 +139,7 @@
 
 #define leadscrewRPM(rpm) ((200000 * 60) / rpm) / (STEPPER_MICROSTEPS * STEPPER_RESOLUTION);
 // default to 200rpm
-const int32 retractSpeed = leadscrewRPM( 1000 );
+const int32 retractSpeed = leadscrewRPM( 200 );
 
 //================================================================================
 //                               DEFAULTS
